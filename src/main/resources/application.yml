@@ -1,0 +1,23 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database: oracle
+
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1523:xe
+    username: bootuser
+    password: bootuser
+
+# jwt
+application:
+  security:
+    jwt:
+      secretKey: 25432A462D4A614E645267556A586E3272357538782F413F4428472B4B625065
+      expiration: 900000 # 15m
+      refreshExpiration: 86400000 # 24h
