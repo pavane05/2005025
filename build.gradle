@@ -41,6 +41,9 @@ dependencies {
     // JDBC
     runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 
+    // validation (검증용)
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'

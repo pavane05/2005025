@@ -32,6 +32,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     public User signup(SignUpRequest signUpRequest) {
+
+        // 미입력 방지
+//        if (signUpRequest.getEmail().isEmpty()) {
+//            throw new RuntimeException("이메일을 입력해주세요.");
+//        } else if (signUpRequest.getPassword().isEmpty()) {
+//            throw new RuntimeException("비밀번호를 입력해주세요.");
+//        } else if (signUpRequest.getPassword().length()<3) {
+//            throw new RuntimeException("비밀번호가 너무 짧습니다.");
+//        } else if (signUpRequest.getName().isEmpty()) {
+//            throw new RuntimeException("이름을 입력해주세요.");
+//        } else if (signUpRequest.getName().length()<2) {
+//            throw new RuntimeException("이름이 너무 짧습니다.")
+//        } else if (signUpRequest.getTel().isEmpty()) {
+//            throw new RuntimeException("전화번호를 입력해주세요.");
+//        }
+
         // 중복 가입 방지
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new RuntimeException("이미 가입된 이메일입니다.");
@@ -51,6 +67,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
+
+        // 미입력 방지
+//        if (signInRequest.getEmail().isEmpty()) {
+//            throw new RuntimeException("이메일을 입력해주세요.");
+//        } else if (signInRequest.getPassword().isEmpty()) {
+//            throw new RuntimeException("비밀번호를 입력해주세요.");
+//        }
+
         // 존재 여부 체크
         if (!userRepository.existsByEmail(signInRequest.getEmail())) {
             throw new RuntimeException("존재하지 않는 이메일입니다.");
