@@ -17,15 +17,13 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer member_id;
 
-    private String user_id;
+    private String email;
 
     private String password;
 
     private String name;
-
-    private String email;
 
     private String tel;
 

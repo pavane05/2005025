@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
-public class Gametalk2005025Application implements CommandLineRunner {
+public class Gametalk2005025Application { // implements CommandLineRunner {
 
     @Autowired
     private UserRepository userRepository;
@@ -19,20 +19,33 @@ public class Gametalk2005025Application implements CommandLineRunner {
         SpringApplication.run(Gametalk2005025Application.class, args);
     }
 
-    //관리자 생성
-    public void run(String... args) {
-        User adminAccount = userRepository.findByRole(Role.ADMIN);
-        if(null == adminAccount) {
-            User user = new User();
-            user.setUser_id("admin");
-            user.setEmail("admin@gmail.com");
-            user.setName("admin");
-            user.setPassword("admin");
-            user.setTel("010-1234-5678");
-            user.setRole(Role.ADMIN);
-            user.setPassword(new BCryptPasswordEncoder().encode("admin"));
-            userRepository.save(user);
-        }
-    }
+    // 관리자 추가용
+//    public void run(String... args) {
+//        User user = new User();
+//            user.setEmail("admin1@gmail.com");
+//            user.setName("admin1");
+//            user.setTel("010-1234-5678");
+//            user.setRole(Role.ADMIN);
+//            user.setPassword(new BCryptPasswordEncoder().encode("admin")); // 비밀번호 암호화 저장
+//            userRepository.save(user);
+//
+//    }
+
+
+     // 단독 관리자 생성
+//    public void run(String... args) {
+//        User adminAccount = userRepository.findByRole(Role.ADMIN);
+//        if(null == adminAccount) {
+//            User user = new User();
+//            user.setEmail("admin1@gmail.com");
+//            user.setName("admin1");
+//            user.setTel("010-1234-5678");
+//            user.setRole(Role.ADMIN);
+//            user.setPassword(new BCryptPasswordEncoder().encode("admin")); // 비밀번호 암호화 저장
+//            userRepository.save(user);
+//        }
+//    }
 
 }
+
+
