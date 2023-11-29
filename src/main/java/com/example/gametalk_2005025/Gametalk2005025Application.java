@@ -32,7 +32,7 @@ public class Gametalk2005025Application { // implements CommandLineRunner {
 //    }
 
 
-     // 단독 관리자 생성
+     // 관리자 여부 체크 후 생성
 //    public void run(String... args) {
 //        User adminAccount = userRepository.findByRole(Role.ADMIN);
 //        if(null == adminAccount) {

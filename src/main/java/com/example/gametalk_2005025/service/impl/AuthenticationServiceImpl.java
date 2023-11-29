@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 
@@ -29,41 +30,50 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JwtService jwtService;
 
+
     public User signup(SignUpRequest signUpRequest) {
-        User user = new User();
+        // 중복 가입 방지
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new RuntimeException("이미 가입된 이메일입니다.");
+        } else {
 
-        user.setEmail(signUpRequest.getEmail());
-        user.setName(signUpRequest.getName());
-        user.setTel(signUpRequest.getTel());
-        user.setRole(Role.USER);
-        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+            User user = new User();
 
-        return userRepository.save(user);
+            user.setEmail(signUpRequest.getEmail());
+            user.setName(signUpRequest.getName());
+            user.setTel(signUpRequest.getTel());
+            user.setRole(Role.USER);
+            user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
+            return userRepository.save(user);
+        }
     }
 
     @Override
     public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
+        // 존재 여부 체크
+        if (!userRepository.existsByEmail(signInRequest.getEmail())) {
+            throw new RuntimeException("존재하지 않는 이메일입니다.");
+        } else {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
 
-        // 인증용 객체 생성
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
+            var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid id or password"));
+            var jwt = jwtService.generateToken(user);
+            var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
 
-        var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid id or password"));
-        var jwt = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user);
+            JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
 
-        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
+            jwtAuthenticationResponse.setToken(jwt);
+            jwtAuthenticationResponse.setRefreshToken(refreshToken);
 
-        jwtAuthenticationResponse.setToken(jwt);
-        jwtAuthenticationResponse.setRefreshToken(refreshToken);
-
-        return jwtAuthenticationResponse;
+            return jwtAuthenticationResponse;
+        }
     }
 
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
         User user = userRepository.findByEmail(userEmail).orElseThrow();
-        if(jwtService.isTokenValid(refreshTokenRequest.getToken(), user)) {
+        if (jwtService.isTokenValid(refreshTokenRequest.getToken(), user)) {
             var jwt = jwtService.generateToken(user);
 
             JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
