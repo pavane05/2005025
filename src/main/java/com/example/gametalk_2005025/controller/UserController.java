@@ -1,12 +1,10 @@
 package com.example.gametalk_2005025.controller;
 
-import com.example.gametalk_2005025.dto.UserDTO;
+import com.example.gametalk_2005025.dto.UserDto;
 import com.example.gametalk_2005025.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,19 +17,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    @GetMapping
-    public ResponseEntity<String> sayHello() {
-        return ResponseEntity.ok("Hi User");
-    }
+    @Autowired
+    private UserService userService;
+
+//    @GetMapping
+//    public ResponseEntity<String> sayHello() {
+//        return ResponseEntity.ok("Hi User");
+//    }
 
 
     // 로그인 후 토큰 넘겨주고 회원정보 받아오기
     @GetMapping("/profile")
-    public String getMemberInfo(Authentication authentication) {
+    public String getUserInfo(Authentication authentication) {
         String profile = authentication.getPrincipal().toString();
 
         return profile;
     }
+
+    @GetMapping("/userlist")
+    public String findAll(Model model) {
+
+        List<UserDto> userList = userService.findAll();
+        String list = userList.toString();
+
+        model.addAttribute("title", "회원목록조회");
+        model.addAttribute("userList", userList);
+        return list;
+    }
+
+
 
     // 유저 목록 출력
 //    @GetMapping("/member")

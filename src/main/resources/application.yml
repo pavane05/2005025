@@ -8,11 +8,20 @@ spring:
     show-sql: true
     database: oracle
 
+  # DB 설정
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
     url: jdbc:oracle:thin:@localhost:1523:xe
     username: bootuser
     password: bootuser
+
+  # Thymeleaf 설정
+  thymeleaf:
+    prefix: classpath:templates/thymeleaf/
+    check-template-location: true
+    suffix: .html
+    mode: HTML
+    cache: false
 
 # jwt
 application:

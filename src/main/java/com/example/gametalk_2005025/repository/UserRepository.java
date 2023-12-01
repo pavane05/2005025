@@ -5,14 +5,13 @@ import com.example.gametalk_2005025.entitiy.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
-
-
 
     // 중복 방지를 위한 존재 여부 체크
     boolean existsByEmail(String email);

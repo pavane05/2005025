@@ -1,9 +1,6 @@
 package com.example.gametalk_2005025.service.impl;
 
-import com.example.gametalk_2005025.dto.JwtAuthenticationResponse;
-import com.example.gametalk_2005025.dto.RefreshTokenRequest;
-import com.example.gametalk_2005025.dto.SignInRequest;
-import com.example.gametalk_2005025.dto.SignUpRequest;
+import com.example.gametalk_2005025.dto.*;
 import com.example.gametalk_2005025.entitiy.Role;
 import com.example.gametalk_2005025.entitiy.User;
 import com.example.gametalk_2005025.repository.UserRepository;
@@ -14,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 
@@ -33,22 +29,25 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public User signup(SignUpRequest signUpRequest) {
 
-        // 미입력 방지
-//        if (signUpRequest.getEmail().isEmpty()) {
-//            throw new RuntimeException("이메일을 입력해주세요.");
-//        } else if (signUpRequest.getPassword().isEmpty()) {
-//            throw new RuntimeException("비밀번호를 입력해주세요.");
-//        } else if (signUpRequest.getPassword().length()<3) {
-//            throw new RuntimeException("비밀번호가 너무 짧습니다.");
-//        } else if (signUpRequest.getName().isEmpty()) {
-//            throw new RuntimeException("이름을 입력해주세요.");
-//        } else if (signUpRequest.getName().length()<2) {
-//            throw new RuntimeException("이름이 너무 짧습니다.")
-//        } else if (signUpRequest.getTel().isEmpty()) {
-//            throw new RuntimeException("전화번호를 입력해주세요.");
-//        }
-
         // 중복 가입 방지
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            throw new RuntimeException("이미 가입된 이메일입니다.");
+        } else {    // 가입
+            User user = new User();
+
+            user.setEmail(signUpRequest.getEmail());
+            user.setName(signUpRequest.getName());
+            user.setTel(signUpRequest.getTel());
+            user.setRole(Role.USER);
+            user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+            return userRepository.save(user);
+        }
+    }
+
+    /*
+
+        // DTO로 기능 이동 이전 코드
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new RuntimeException("이미 가입된 이메일입니다.");
         } else {
@@ -63,7 +62,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             return userRepository.save(user);
         }
-    }
+
+    // 미입력 방지(기능 이동)
+        if (signUpRequest.getEmail().isEmpty()) {
+            throw new RuntimeException("이메일을 입력해주세요.");
+        } else if (signUpRequest.getPassword().isEmpty()) {
+            throw new RuntimeException("비밀번호를 입력해주세요.");
+        } else if (signUpRequest.getPassword().length()<3) {
+            throw new RuntimeException("비밀번호가 너무 짧습니다.");
+        } else if (signUpRequest.getName().isEmpty()) {
+            throw new RuntimeException("이름을 입력해주세요.");
+        } else if (signUpRequest.getName().length()<2) {
+            throw new RuntimeException("이름이 너무 짧습니다.")
+        } else if (signUpRequest.getTel().isEmpty()) {
+            throw new RuntimeException("전화번호를 입력해주세요.");
+        }
+
+    */
+
 
     @Override
     public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
