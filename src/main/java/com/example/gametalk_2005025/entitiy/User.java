@@ -1,6 +1,8 @@
 package com.example.gametalk_2005025.entitiy;
 
 
+import com.example.gametalk_2005025.entitiy.board.Board;
+import com.example.gametalk_2005025.entitiy.board.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -22,7 +24,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer member_id;
+    private Long user_id;         // 회원 고유 넘버
 
     @NotEmpty(message = "이메일을 입력해주세요.")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식을 확인해주세요.")
@@ -40,6 +42,12 @@ public class User implements UserDetails {
     private String tel;
 
     private Role role;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Board> boards;     // 작성글
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Comment> comments; // 댓글
 
 
     @Override

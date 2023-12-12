@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-    private Integer id;
+    private Long user_id;
     private String email;
     private String password;
     private String name;
@@ -15,7 +15,7 @@ public class UserDto {
 
     public static UserDto toUserDTO(User user) {
         UserDto userDto = new UserDto();
-        userDto.id = user.getMember_id();
+        userDto.user_id = user.getUser_id();
         userDto.email = user.getEmail();
         userDto.password = user.getPassword();
         userDto.name = user.getName();
