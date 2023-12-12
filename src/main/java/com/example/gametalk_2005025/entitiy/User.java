@@ -1,8 +1,10 @@
 package com.example.gametalk_2005025.entitiy;
 
 
+import com.example.gametalk_2005025.dto.user.UserUpdateDto;
 import com.example.gametalk_2005025.entitiy.board.Board;
 import com.example.gametalk_2005025.entitiy.board.Comment;
+import com.example.gametalk_2005025.entitiy.board.Like;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -12,6 +14,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +27,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;         // 회원 고유 넘버
+    private Long id;         // 회원 고유 넘버
 
     @NotEmpty(message = "이메일을 입력해주세요.")
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식을 확인해주세요.")
@@ -47,8 +50,18 @@ public class User implements UserDetails {
     private List<Board> boards;     // 작성글
 
     @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Like> likes;       // 유저가 누른 좋아요
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
     private List<Comment> comments; // 댓글
 
+
+    // 회원 정보 수정
+    public void updateUser(UserUpdateDto dto, PasswordEncoder passwordEncoder) {
+        if(dto.getPassword() != null) this.password = passwordEncoder.encode(dto.getPassword());
+        if(dto.getName() != null) this.name = dto.getName();
+        if (dto.getTel() != null) this.tel = dto.getTel();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

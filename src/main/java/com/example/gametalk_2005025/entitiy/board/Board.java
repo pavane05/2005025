@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "board")
 public class Board extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +38,10 @@ public class Board extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     private UploadImage uploadImage;
 
-    public void update(BoardDto dto) {
-        this.title = dto.getTitle();
-        this.body = dto.getBody();
-    }
+//    public void update(BoardDto dto) {
+//        this.title = dto.getTitle();
+//        this.body = dto.getBody();
+//    }
 
     public void likeChange(Integer likeCnt) {
         this.likeCnt = likeCnt;

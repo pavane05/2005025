@@ -5,6 +5,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        # oracle 예약어를 테이블명으로 사용
+        globally_quoted_identifiers: true
     show-sql: true
     database: oracle
 

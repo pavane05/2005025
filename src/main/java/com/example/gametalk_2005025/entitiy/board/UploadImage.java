@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Getter
+@Table(name = "upload_image")
 public class UploadImage {
 
     @Id

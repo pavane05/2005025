@@ -1,14 +1,18 @@
 package com.example.gametalk_2005025.controller;
 
-import com.example.gametalk_2005025.dto.UserDto;
+import com.example.gametalk_2005025.dto.user.UserDto;
+import com.example.gametalk_2005025.dto.user.UserResponseDto;
+import com.example.gametalk_2005025.dto.user.UserUpdateDto;
+import com.example.gametalk_2005025.entitiy.User;
 import com.example.gametalk_2005025.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
 //    @GetMapping
 //    public ResponseEntity<String> sayHello() {
@@ -45,7 +50,35 @@ public class UserController {
         return list;
     }
 
+    // 회원 정보 수정
+    @PutMapping("/update")
+    public ResponseEntity<UserResponseDto> updateMyInfo(@RequestBody UserUpdateDto dto) {
+        userService.updateMyInfo(dto);
+        return ResponseEntity.ok(userService.getMyInfo());
+    }
 
+
+    // 회원 삭제
+    @GetMapping("/delete/{id}")
+    public String deleteById(@PathVariable Integer id) {
+        userService.deleteById(id);
+
+        return "삭제 완료";
+    }
+
+//    @PostMapping("/delete")
+//    public String userDelete(@ModelAttribute UserDto dto, Authentication auth, Model model) {
+//        Boolean deleteSuccess = userService.delete(auth.getName(), dto.getNowPassword());
+//        if (deleteSuccess) {
+//            model.addAttribute("message", "탈퇴 되었습니다.");
+//            model.addAttribute("nextUrl", "/users/logout");
+//            return "printMessage";
+//        } else {
+//            model.addAttribute("message", "현재 비밀번호가 틀려 탈퇴에 실패하였습니다.");
+//            model.addAttribute("nextUrl", "/users/delete");
+//            return "printMessage";
+//        }
+//    }
 
     // 유저 목록 출력
 //    @GetMapping("/member")
