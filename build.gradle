@@ -52,6 +52,13 @@ dependencies {
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // 비밀번호 찾기용 메일
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // 로깅용
+    implementation 'ch.qos.logback:logback-classic:1.4.1'
+    implementation 'org.slf4j:slf4j-api:2.0.3'
 }
 
 

@@ -15,16 +15,20 @@ public interface UserService {
 
     List<UserDto> findAll();
 
-    User myInfo(String loginId);
-
 //    Boolean delete(String loginId, String nowPassword);
 
+
+    User myInfo(String email);
 
     // 로그인 정보 조회
     UserResponseDto getMyInfo();
 
     // 정보 수정
     void updateMyInfo(UserUpdateDto dto);
+
+    // 비밀번호 초기화 기능을 제공하는 메서드
+    void resetPassword(String email);
+
 
     // 회원 삭제
     void deleteById(Integer id);

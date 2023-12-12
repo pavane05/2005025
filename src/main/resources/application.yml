@@ -10,6 +10,9 @@ spring:
     show-sql: true
     database: oracle
 
+  profiles:
+    include: jelly
+
   # DB 설정
   datasource:
     driver-class-name: oracle.jdbc.OracleDriver
@@ -19,7 +22,7 @@ spring:
 
   # Thymeleaf 설정
   thymeleaf:
-    prefix: classpath:templates/thymeleaf/
+    prefix: classpath:/templates/
     check-template-location: true
     suffix: .html
     mode: HTML
@@ -32,3 +35,7 @@ application:
       secretKey: 25432A462D4A614E645267556A586E3272357538782F413F4428472B4B625065
       expiration: 900000 # 15m
       refreshExpiration: 86400000 # 24h
+
+logging:
+  level:
+    org.springframework.security: DEBUG

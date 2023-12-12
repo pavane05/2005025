@@ -32,6 +32,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
+        // /password에 대한 요청이면 필터를 건너뛰도록 추가
+        if (request.getRequestURI().equals("/password")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
         if (StringUtils.isEmpty(authHeader) || !org.apache.commons.lang3.StringUtils.startsWith(authHeader, "Bearer ")) {
             filterChain.doFilter(request, response);
             return;
