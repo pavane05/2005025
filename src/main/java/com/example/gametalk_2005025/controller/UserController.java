@@ -23,13 +23,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-//    @GetMapping
-//    public ResponseEntity<String> sayHello() {
-//        return ResponseEntity.ok("Hi User");
-//    }
-
-
     // 로그인 후 토큰 넘겨주고 회원정보 받아오기
     @GetMapping("/profile")
     public String getUserInfo(Authentication authentication) {

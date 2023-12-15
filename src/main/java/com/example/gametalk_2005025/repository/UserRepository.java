@@ -2,12 +2,9 @@ package com.example.gametalk_2005025.repository;
 
 import com.example.gametalk_2005025.entitiy.Role;
 import com.example.gametalk_2005025.entitiy.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
