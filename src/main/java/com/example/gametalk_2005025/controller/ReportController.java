@@ -2,7 +2,6 @@ package com.example.gametalk_2005025.controller;
 
 
 import com.example.gametalk_2005025.dto.report.UserReportRequest;
-import com.example.gametalk_2005025.dto.user.UserDto;
 import com.example.gametalk_2005025.entitiy.User;
 import com.example.gametalk_2005025.repository.UserRepository;
 import com.example.gametalk_2005025.service.ReportService;

@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/board").permitAll()
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/admin").hasAnyAuthority(Role.ADMIN.name())
                         .requestMatchers("/user").hasAnyAuthority(Role.USER.name())
