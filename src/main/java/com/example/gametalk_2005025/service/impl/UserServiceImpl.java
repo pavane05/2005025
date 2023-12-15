@@ -127,6 +127,18 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    // 유저 검색
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+    public List<User> searchUsersByName(String name) {
+        return userRepository.findByName(name);
+    }
+
+
 //    @Override
 //    public Boolean delete(String loginId, String nowPassword) {
 //        User loginUser = userRepository.findByLoginId(loginId).get();

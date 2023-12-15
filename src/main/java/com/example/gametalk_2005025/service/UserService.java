@@ -32,4 +32,9 @@ public interface UserService {
 
     // 회원 삭제
     void deleteById(Integer id);
+
+    // 유저 검색
+    User findByEmail(String userEmail);
+
+    List<User> searchUsersByName(String name);
 }

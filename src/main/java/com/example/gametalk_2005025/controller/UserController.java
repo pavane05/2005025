@@ -3,6 +3,7 @@ package com.example.gametalk_2005025.controller;
 import com.example.gametalk_2005025.dto.user.UserDto;
 import com.example.gametalk_2005025.dto.user.UserResponseDto;
 import com.example.gametalk_2005025.dto.user.UserUpdateDto;
+import com.example.gametalk_2005025.entitiy.User;
 import com.example.gametalk_2005025.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class UserController {
         return profile;
     }
 
+    // 전체 유저 리스트
     @GetMapping("/userlist")
     public String findAll(Model model) {
 
@@ -41,6 +43,18 @@ public class UserController {
         model.addAttribute("userList", userList);
         return list;
     }
+
+    // 유저 검색
+    @GetMapping("/{userEmail}")
+    public User getUserByEmail(@PathVariable String email) {
+        return userService.findByEmail(email);
+    }
+
+    @GetMapping("/search")
+    public List<User> searchUsersByName(@RequestParam String name) {
+        return userService.searchUsersByName(name);
+    }
+
 
     // 회원 정보 수정
     @PutMapping("/update")
